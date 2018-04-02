@@ -183,7 +183,11 @@ object LexicalAnalyer {
       } else if (ch == '/') {
         buf = buf.init
         currentState = "O"
-      } else {
+      } else if (ch == '=') {
+        buf += ch
+        currentState = "B="
+      }
+      else {
         console_msg += "(" + buf + " ,运算符)\n"
       }
     }
@@ -392,11 +396,6 @@ object LexicalAnalyer {
     }
     else if (currentState == "$") {
       console_msg = console_msg + "(" + buf + " ,终结符)\n"
-      buf = ""
-      currentState = "A"
-    }
-    else if (currentState == "$") {
-      console_msg += "终结"
       buf = ""
       currentState = "A"
     }

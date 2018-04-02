@@ -4,7 +4,7 @@
 		module="nfa$sources"
 		revision="0.1"
 		status="integration"
-		publication="20180401215347"
+		publication="20180403002628"
 	/>
 	<configurations>
 		<conf name="compile" visibility="public" description=""/>
