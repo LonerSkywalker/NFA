@@ -27,8 +27,7 @@ object LexicalAnalyer {
   }
 
 
-  def scanner(text: String): Unit = {
-    val ch = text.head
+  def scanner(ch: Char): Unit = {
     if (currentState == "A") {
       if (blankCharSet.contains(ch)) {
         currentState = "A"
@@ -102,6 +101,7 @@ object LexicalAnalyer {
         }
         buf = ""
         currentState = "A"
+        scanner(ch)
       }
     }
     else if (currentState == "C") {
@@ -115,6 +115,7 @@ object LexicalAnalyer {
         console_msg += ("(" + buf + " , 整数常量)\n")
         buf = ""
         currentState = "A"
+        scanner(ch)
       }
     }
     else if (currentState == "D") {
@@ -133,6 +134,7 @@ object LexicalAnalyer {
       if (ch == '\'') {
         buf += ch
         currentState = "H"
+        scanner(ch)
       }
       else {
         compilerFail("字符长度大于1")
@@ -175,6 +177,7 @@ object LexicalAnalyer {
       console_msg += "(" + buf + " ,字符串常量)\n"
       buf = ""
       currentState = "A"
+      scanner(ch)
     }
     else if (currentState == "K") {
       if (ch == '*') {
@@ -189,6 +192,9 @@ object LexicalAnalyer {
       }
       else {
         console_msg += "(" + buf + " ,运算符)\n"
+        buf = ""
+        currentState = "A"
+        scanner(ch)
       }
     }
     else if (currentState == "L") {
@@ -232,6 +238,7 @@ object LexicalAnalyer {
         console_msg += ("(" + buf + ", 浮点数)\n")
         buf = ""
         currentState = "A"
+        scanner(ch)
       }
     }
     else if (currentState == "A+") {
@@ -242,6 +249,7 @@ object LexicalAnalyer {
         console_msg += ('(' + buf + ", 操作符) \n")
         buf = ""
         currentState = "A"
+        scanner(ch)
       }
 
     }
@@ -249,6 +257,7 @@ object LexicalAnalyer {
       console_msg = console_msg + "(" + buf + " ,操作符)\n"
       buf = ""
       currentState = "A"
+      scanner(ch)
     }
     else if (currentState == "A-") {
       if (ch == '-' | ch == '=') {
@@ -259,12 +268,14 @@ object LexicalAnalyer {
         console_msg = console_msg + "(" + buf + " ,操作符)\n"
         buf = ""
         currentState = "A"
+        scanner(ch)
       }
     }
     else if (currentState == "B-") {
       console_msg = console_msg + "(" + buf + " ,操作符)\n"
       buf = ""
       currentState = "A"
+      scanner(ch)
     }
     else if (currentState == "A*") {
       if (ch == '*' | ch == '=') {
@@ -275,12 +286,14 @@ object LexicalAnalyer {
         console_msg = console_msg + "(" + buf + " ,操作符)\n"
         buf = ""
         currentState = "A"
+        scanner(ch)
       }
     }
     else if (currentState == "B(") {
       console_msg = console_msg + "(" + buf + " ,操作符)\n"
       buf = ""
       currentState = "A"
+      scanner(ch)
     }
     else if (currentState == "A&") {
       if (ch == '&' | ch == '=') {
@@ -291,12 +304,14 @@ object LexicalAnalyer {
         console_msg = console_msg + "(" + buf + " ,操作符)\n"
         buf = ""
         currentState = "A"
+        scanner(ch)
       }
     }
     else if (currentState == "B&") {
       console_msg = console_msg + "(" + buf + " ,操作符)\n"
       buf = ""
       currentState = "A"
+      scanner(ch)
     }
     else if (currentState == "A^") {
       if (ch == '^' | ch == '=') {
@@ -307,12 +322,14 @@ object LexicalAnalyer {
         console_msg = console_msg + "(" + buf + " ,操作符)\n"
         buf = ""
         currentState = "A"
+        scanner(ch)
       }
     }
     else if (currentState == "B^") {
       console_msg = console_msg + "(" + buf + " ,操作符)\n"
       buf = ""
       currentState = "A"
+      scanner(ch)
     }
     else if (currentState == "A|") {
       if (ch == '|' | ch == '=') {
@@ -323,12 +340,14 @@ object LexicalAnalyer {
         console_msg = console_msg + "(" + buf + " ,操作符)\n"
         buf = ""
         currentState = "A"
+        scanner(ch)
       }
     }
     else if (currentState == "B|") {
       console_msg = console_msg + "(" + buf + " ,操作符)\n"
       buf = ""
       currentState = "A"
+      scanner(ch)
     }
     else if (currentState == "A=") {
       if (ch == '=') {
@@ -339,12 +358,14 @@ object LexicalAnalyer {
         console_msg = console_msg + "(" + buf + " ,操作符)\n"
         buf = ""
         currentState = "A"
+        scanner(ch)
       }
     }
     else if (currentState == "B=") {
       console_msg = console_msg + "(" + buf + " ,操作符)\n"
       buf = ""
       currentState = "A"
+      scanner(ch)
     }
     else if (currentState == "A!") {
       if (ch == '=') {
@@ -355,12 +376,14 @@ object LexicalAnalyer {
         console_msg = console_msg + "(" + buf + " ,操作符)\n"
         buf = ""
         currentState = "A"
+        scanner(ch)
       }
     }
     else if (currentState == "B!") {
       console_msg = console_msg + "(" + buf + " ,操作符)\n"
       buf = ""
       currentState = "A"
+      scanner(ch)
     }
     else if (currentState == "A>") {
       if (ch == '=') {
@@ -371,12 +394,14 @@ object LexicalAnalyer {
         console_msg = console_msg + "(" + buf + " ,操作符)\n"
         buf = ""
         currentState = "A"
+        scanner(ch)
       }
     }
     else if (currentState == "B!") {
       console_msg = console_msg + "(" + buf + " ,操作符)\n"
       buf = ""
       currentState = "A"
+      scanner(ch)
     }
     else if (currentState == "A<") {
       if (ch == '=') {
@@ -387,28 +412,36 @@ object LexicalAnalyer {
         console_msg = console_msg + "(" + buf + " ,操作符)\n"
         buf = ""
         currentState = "A"
+        scanner(ch)
       }
     }
     else if (currentState == "B!") {
       console_msg = console_msg + "(" + buf + " ,操作符)\n"
       buf = ""
       currentState = "A"
+      scanner(ch)
     }
     else if (currentState == "$") {
       console_msg = console_msg + "(" + buf + " ,终结符)\n"
       buf = ""
       currentState = "A"
-    }
-    if (text.tail.nonEmpty) {
-      scanner(text.tail)
-    } else if (text.head != '$') {
-      scanner("$")
+      scanner(ch)
     }
   }
 
+  def token(text: String):Unit = {
+    scanner(text.head)
+    if (text.tail.nonEmpty) {
+      token(text.tail)
+    } else if (text.head != '$') {
+      token("$")
+    }
+  }
+
+
   def main(args: Array[String]): Unit = {
     val fp = Source.fromFile("src/main/test")
-    scanner(fp.mkString)
+    token(fp.mkString)
     println(console_msg)
   }
 }

@@ -7,3 +7,4 @@ int main()
 struct Complex x;
 y.image = 3.5;
 }
+a += 1
