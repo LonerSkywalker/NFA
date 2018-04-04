@@ -289,12 +289,6 @@ object LexicalAnalyer {
         scanner(ch)
       }
     }
-    else if (currentState == "B(") {
-      console_msg = console_msg + "(" + buf + " ,操作符)\n"
-      buf = ""
-      currentState = "A"
-      scanner(ch)
-    }
     else if (currentState == "A&") {
       if (ch == '&' | ch == '=') {
         buf += ch
@@ -429,7 +423,7 @@ object LexicalAnalyer {
     }
   }
 
-  def token(text: String):Unit = {
+  def token(text: String): Unit = {
     scanner(text.head)
     if (text.tail.nonEmpty) {
       token(text.tail)
